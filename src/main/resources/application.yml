@@ -5,6 +5,17 @@ server:
       charset: UTF-8
       force-response: true
 
+# 排查 MCP 卡住：看最后一条 [MCP] 日志停在哪一步；需要框架内部细节时放开下面 DEBUG
+logging:
+  level:
+    com.example.graph: INFO
+    # Spring AI：看 HTTP 请求、工具调用、MCP 通信（卡住时建议打开）
+    org.springframework.ai: DEBUG
+    # MCP 客户端：看 SSE 连接、工具发现与调用（卡住时建议打开）
+    org.springframework.ai.mcp: DEBUG
+
+# qwen3:4B-UD-Q4_K_XL  qwen3-embedding:4B-Q4_K_M
+# qwen3:0.6B-Q4_K_M   qwen3-embedding:0.6B-F16
 spring:
   ai:
     openai:
@@ -13,8 +24,16 @@ spring:
       chat:
         completions-path: /v1/chat/completions
         options:
-          model: ai/qwen3:4B-UD-Q4_K_XL
+          model: ai/qwen3:0.6B-Q4_K_M
       embedding:
         embeddings-path: /v1/embeddings
         options:
-          model: ai/qwen3-embedding:4B-Q4_K_M
+          model: ai/qwen3-embedding:0.6B-F16
+    # MCP 客户端：SSE 方式连接，地址请填写你的 MCP 服务 base URL
+    mcp:
+      client:
+        sse:
+          connections:
+            product-server:
+              url: http://192.168.2.16:3000   # 请改为你的 MCP SSE 服务地址
+              sse-endpoint: /sse   # 可选，默认 /sse

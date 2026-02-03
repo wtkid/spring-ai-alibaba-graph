@@ -23,6 +23,7 @@ dependencyManagement {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+    implementation 'org.springframework.ai:spring-ai-starter-mcp-client'
     implementation 'org.springframework.ai:spring-ai-vector-store'
     implementation 'org.springframework.ai:spring-ai-rag'
     implementation 'com.alibaba.cloud.ai:spring-ai-alibaba-graph-core'
