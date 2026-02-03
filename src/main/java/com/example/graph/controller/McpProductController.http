@@ -1,2 +1,2 @@
 ### MCP 商品查询（图：START → mcpProduct → END，通过 SSE 连接 MCP 服务查商品）
-GET http://localhost:8888/mcp/product?productId=1
+GET http://localhost:8888/mcp/product?productId=2
