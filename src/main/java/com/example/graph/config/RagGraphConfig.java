@@ -5,14 +5,13 @@ import com.alibaba.cloud.ai.graph.OverAllStateFactory;
 import com.alibaba.cloud.ai.graph.StateGraph;
 import com.alibaba.cloud.ai.graph.exception.GraphStateException;
 import com.alibaba.cloud.ai.graph.state.strategy.ReplaceStrategy;
-import com.example.graph.node.rag.RagGenerateNode;
-import com.example.graph.node.rag.RagRetrieveNode;
+import com.example.graph.node.rag.RagNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
-import org.springframework.ai.rag.retrieval.search.DocumentRetriever;
+import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
 import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
@@ -31,8 +30,8 @@ import java.util.Map;
 import static com.alibaba.cloud.ai.graph.action.AsyncNodeAction.node_async;
 
 /**
- * RAG Demo 的 Graph 配置：START → retrieve → generate → END。
- * 使用 Spring AI 官方 TokenTextSplitter 分块、VectorStoreDocumentRetriever 检索。
+ * RAG Demo 的 Graph 配置（官方方式）：START → rag → END。
+ * 使用 Spring AI 官方 RetrievalAugmentationAdvisor + VectorStoreDocumentRetriever，检索与生成由 Advisor 完成。
  */
 @Configuration
 public class RagGraphConfig {
@@ -67,30 +66,29 @@ public class RagGraphConfig {
         return store;
     }
 
-    /** 官方检索器：相似度 > 0.75，最多 3 条。 */
+    /** 官方 RAG Advisor：检索 + 增强 prompt 后交给大模型。 */
     @Bean
-    public DocumentRetriever vectorStoreDocumentRetriever(VectorStore vectorStore) {
-        return VectorStoreDocumentRetriever.builder()
-                .vectorStore(vectorStore)
-                .topK(TOP_K)
-                .similarityThreshold(SIMILARITY_THRESHOLD)
+    public RetrievalAugmentationAdvisor retrievalAugmentationAdvisor(VectorStore vectorStore) {
+        return RetrievalAugmentationAdvisor.builder()
+                .documentRetriever(VectorStoreDocumentRetriever.builder()
+                        .vectorStore(vectorStore)
+                        .topK(TOP_K)
+                        .similarityThreshold(SIMILARITY_THRESHOLD)
+                        .build())
                 .build();
     }
 
     @Bean
-    public StateGraph ragGraph(ChatClient.Builder chatClientBuilder, DocumentRetriever documentRetriever) throws GraphStateException {
+    public StateGraph ragGraph(ChatClient.Builder chatClientBuilder, RetrievalAugmentationAdvisor retrievalAugmentationAdvisor) throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("query", new ReplaceStrategy());
-            state.registerKeyAndStrategy("retrievedContext", new ReplaceStrategy());
             state.registerKeyAndStrategy("result", new ReplaceStrategy());
             return state;
         };
         return new StateGraph("RagGraph", stateFactory)
-                .addNode("retrieve", node_async(new RagRetrieveNode(documentRetriever)))
-                .addNode("generate", node_async(new RagGenerateNode(chatClientBuilder)))
-                .addEdge(StateGraph.START, "retrieve")
-                .addEdge("retrieve", "generate")
-                .addEdge("generate", StateGraph.END);
+                .addNode("rag", node_async(new RagNode(chatClientBuilder, retrievalAugmentationAdvisor)))
+                .addEdge(StateGraph.START, "rag")
+                .addEdge("rag", StateGraph.END);
     }
 }

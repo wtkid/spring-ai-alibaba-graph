@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * RAG Demo：官方 TokenTextSplitter 分块 + VectorStoreDocumentRetriever 检索 → generate。
- * 接口：GET /rag/query?query=xxx&threadId=xxx，返回 query、retrievedContext、result。
+ * RAG Demo（官方方式）：使用 Spring AI 官方 RetrievalAugmentationAdvisor，图 START → rag → END。
+ * 接口：GET /rag/query?query=xxx&threadId=xxx，返回 query、result。
  */
 @RestController
 @RequestMapping("/rag")

@@ -1,4 +1,4 @@
-### 官方 RAG：TokenTextSplitter + DocumentRetriever
+### 官方 RAG：RetrievalAugmentationAdvisor（图 START → rag → END）
 GET http://localhost:8888/rag/query?query=小王是谁
 
 ###
