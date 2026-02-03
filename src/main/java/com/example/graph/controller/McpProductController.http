@@ -1,2 +1,5 @@
-### MCP 商品查询（图：START → mcpProduct → END，通过 SSE 连接 MCP 服务查商品）
-GET http://localhost:8888/mcp/product?productId=2
+### MCP 商品查询（入参为用户一句话，通过 SSE 连接 MCP 服务查商品），响应速度受限于AI返回速度，http可能超时，看日志即可
+GET http://localhost:8888/mcp/product?message=帮我查询一下id=1的商品的价格
+
+### MCP 商品查询，响应速度受限于AI返回速度，http可能超时，看日志即可
+GET http://localhost:8888/mcp/product?message=帮我查询一下HUAWEI商品的价格

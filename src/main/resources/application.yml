@@ -11,6 +11,8 @@ logging:
     com.example.graph: INFO
     # Spring AI：看 HTTP 请求、工具调用、MCP 通信（卡住时建议打开）
     org.springframework.ai: DEBUG
+    # 大模型调用详细请求/响应日志（SimpleLoggerAdvisor，排障时打开）
+    org.springframework.ai.chat.client.advisor: DEBUG
     # MCP 客户端：看 SSE 连接、工具发现与调用（卡住时建议打开）
     org.springframework.ai.mcp: DEBUG
 
@@ -24,7 +26,7 @@ spring:
       chat:
         completions-path: /v1/chat/completions
         options:
-          model: ai/qwen3:0.6B-Q4_K_M
+          model: ai/qwen3:4B-UD-Q4_K_XL
       embedding:
         embeddings-path: /v1/embeddings
         options:
@@ -37,3 +39,8 @@ spring:
             product-server:
               url: http://192.168.2.16:3000   # 请改为你的 MCP SSE 服务地址
               sse-endpoint: /sse   # 可选，默认 /sse
+    # 这个配置是自己加的，大模型请求日志：true 时全局 ChatClient 使用 SimpleLoggerAdvisor，配合 logging.level.org.springframework.ai.chat.client.advisor=DEBUG 查看详细请求/响应
+    chat:
+      client:
+        logging:
+          enabled: true
