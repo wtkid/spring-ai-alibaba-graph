@@ -1,0 +1,11 @@
+### 会话记忆 Demo：带记忆对话（同一 threadId 多轮）
+GET http://localhost:8888/memory/chat?threadId=user1&query=你好
+
+### 第二轮（有历史，会记得上文）
+GET http://localhost:8888/memory/chat?threadId=user1&query=我叫张三
+
+### 第三轮（会记得“张三”）
+GET http://localhost:8888/memory/chat?threadId=user1&query=我叫什么
+
+### 清空该会话历史
+GET http://localhost:8888/memory/clear?threadId=user1

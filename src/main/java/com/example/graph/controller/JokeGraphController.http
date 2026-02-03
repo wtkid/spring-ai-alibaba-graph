@@ -1,0 +1,7 @@
+### 笑话图流式：想听笑话 -> joke 分支，大模型讲笑话
+GET http://localhost:8888/joke/chat?query=讲个100字以内的冰箱相关的冷笑话，
+Accept: text/event-stream
+
+### 笑话图流式：其他问题 -> other 分支，固定文案流式返回
+GET http://localhost:8888/joke/chat?query=今天天气怎么样
+Accept: text/event-stream

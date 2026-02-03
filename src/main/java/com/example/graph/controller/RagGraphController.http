@@ -1,0 +1,10 @@
+### 官方 RAG：TokenTextSplitter + DocumentRetriever
+GET http://localhost:8888/rag/query?query=小王是谁
+
+###
+GET http://localhost:8888/rag/query?query=小李是谁
+
+###
+GET http://localhost:8888/rag/query?query=小王是邛崃市的猛男吗
+
+

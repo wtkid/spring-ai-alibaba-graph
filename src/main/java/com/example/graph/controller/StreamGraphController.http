@@ -1,0 +1,3 @@
+### 流式返回：单节点 answer 调大模型，SSE 发 result
+GET http://localhost:8888/stream/chat?query=什么是Spring%20AI&threadId=default
+
