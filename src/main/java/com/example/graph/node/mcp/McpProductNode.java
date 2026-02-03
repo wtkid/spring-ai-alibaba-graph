@@ -30,7 +30,9 @@ public class McpProductNode implements NodeAction {
         log.info("[MCP节点] 进入节点, message={}", message);
         log.info("[MCP节点] 即将调用 ChatClient（大模型 + MCP 工具）");
         String result = chatClient.prompt()
-                .system("Answer in Chinese. When querying products, use the table: `demo`.`products`")
+                .system("""
+        Answer in Chinese. USE database demo only. All product queries must use table demo.products.
+        Example: select * from demo.products where ...;  or  select * from demo.products where ...;""")
                 .user(message)
                 .toolCallbacks(mcpTools)
                 .call()
