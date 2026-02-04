@@ -1,4 +1,4 @@
-package com.example.graph.config;
+package com.example.graph.config.chat;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.ChatClientCustomizer;

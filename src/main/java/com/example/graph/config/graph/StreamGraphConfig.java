@@ -1,4 +1,4 @@
-package com.example.graph.config;
+package com.example.graph.config.graph;
 
 import com.alibaba.cloud.ai.graph.OverAllState;
 import com.alibaba.cloud.ai.graph.OverAllStateFactory;
