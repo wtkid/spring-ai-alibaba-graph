@@ -8,7 +8,6 @@ import com.alibaba.cloud.ai.graph.state.strategy.ReplaceStrategy;
 import com.example.graph.node.serial.SerialStep1Node;
 import com.example.graph.node.serial.SerialStep2Node;
 import com.example.graph.node.serial.SerialStep3Node;
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,9 +20,9 @@ import static com.alibaba.cloud.ai.graph.action.AsyncNodeAction.node_async;
 @Configuration
 public class SerialGraphConfig {
 
-    /** 定义串联图：三个节点顺序执行，chatClientBuilder 保留供后续节点扩展（如接入大模型）。 */
+    /** 定义串联图：三个节点顺序执行。 */
     @Bean
-    public StateGraph serialGraph(ChatClient.Builder chatClientBuilder) throws GraphStateException {
+    public StateGraph serialGraph() throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("input", new ReplaceStrategy());

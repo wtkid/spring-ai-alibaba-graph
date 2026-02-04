@@ -26,7 +26,7 @@ import static com.alibaba.cloud.ai.graph.action.AsyncNodeAction.node_async;
 public class JokeGraphConfig {
 
     @Bean
-    public StateGraph jokeGraph(ChatClient.Builder chatClientBuilder) throws GraphStateException {
+    public StateGraph jokeGraph(ChatClient chatClient) throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("query", new ReplaceStrategy());
@@ -37,8 +37,8 @@ public class JokeGraphConfig {
         };
         JokeTypeDispatcher dispatcher = new JokeTypeDispatcher();
         return new StateGraph("JokeGraph", stateFactory)
-                .addNode("classify", node_async(new JokeTypeClassifierNode(chatClientBuilder)))
-                .addNode("jokeBranch", node_async(new JokeBranchNode(chatClientBuilder)))
+                .addNode("classify", node_async(new JokeTypeClassifierNode(chatClient)))
+                .addNode("jokeBranch", node_async(new JokeBranchNode(chatClient)))
                 .addNode("otherBranch", node_async(new OtherBranchNode()))
                 .addEdge(StateGraph.START, "classify")
                 .addConditionalEdges("classify", edge_async(dispatcher),

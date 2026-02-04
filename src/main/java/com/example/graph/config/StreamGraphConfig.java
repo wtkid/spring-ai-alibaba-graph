@@ -21,7 +21,7 @@ public class StreamGraphConfig {
 
     /** 单节点：根据 query 调大模型直接回答。流式时 Controller 将 StreamOutput 放入 input，节点从 state 取出并推送。 */
     @Bean
-    public StateGraph streamGraph(ChatClient.Builder chatClientBuilder) throws GraphStateException {
+    public StateGraph streamGraph(ChatClient chatClient) throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("query", new ReplaceStrategy());
@@ -31,7 +31,7 @@ public class StreamGraphConfig {
             return state;
         };
         return new StateGraph("StreamGraph", stateFactory)
-                .addNode("answer", node_async(new StreamAnswerNode(chatClientBuilder)))
+                .addNode("answer", node_async(new StreamAnswerNode(chatClient)))
                 .addEdge(StateGraph.START, "answer")
                 .addEdge("answer", StateGraph.END);
     }

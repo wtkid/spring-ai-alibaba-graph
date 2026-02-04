@@ -21,7 +21,7 @@ import static com.alibaba.cloud.ai.graph.action.AsyncNodeAction.node_async;
 public class McpGraphConfig {
 
     @Bean
-    public StateGraph mcpGraph(ChatClient.Builder chatClientBuilder, ToolCallbackProvider mcpTools) throws GraphStateException {
+    public StateGraph mcpGraph(ChatClient chatClient, ToolCallbackProvider mcpTools) throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("message", new ReplaceStrategy());
@@ -29,7 +29,7 @@ public class McpGraphConfig {
             return state;
         };
         return new StateGraph("McpGraph", stateFactory)
-                .addNode("mcpProduct", node_async(new McpProductNode(chatClientBuilder, mcpTools)))
+                .addNode("mcpProduct", node_async(new McpProductNode(chatClient, mcpTools)))
                 .addEdge(StateGraph.START, "mcpProduct")
                 .addEdge("mcpProduct", StateGraph.END);
     }

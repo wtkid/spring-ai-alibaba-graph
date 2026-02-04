@@ -21,7 +21,7 @@ public class GraphConfig {
 
     /** 定义单节点图：echo 节点读 query、调大模型、写 result。 */
     @Bean
-    public StateGraph simpleGraph(ChatClient.Builder chatClientBuilder) throws GraphStateException {
+    public StateGraph simpleGraph(ChatClient chatClient) throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("query", new ReplaceStrategy());
@@ -29,7 +29,7 @@ public class GraphConfig {
             return state;
         };
         return new StateGraph("SimpleEchoGraph", stateFactory)
-                .addNode("echo", node_async(new EchoNode(chatClientBuilder)))
+                .addNode("echo", node_async(new EchoNode(chatClient)))
                 .addEdge(StateGraph.START, "echo")
                 .addEdge("echo", StateGraph.END);
     }

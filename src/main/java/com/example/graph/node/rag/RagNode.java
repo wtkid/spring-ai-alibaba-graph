@@ -15,8 +15,8 @@ public class RagNode implements NodeAction {
     private final ChatClient chatClient;
     private final Advisor ragAdvisor;
 
-    public RagNode(ChatClient.Builder chatClientBuilder, Advisor ragAdvisor) {
-        this.chatClient = chatClientBuilder.build();
+    public RagNode(ChatClient chatClient, Advisor ragAdvisor) {
+        this.chatClient = chatClient;
         this.ragAdvisor = ragAdvisor;
     }
 

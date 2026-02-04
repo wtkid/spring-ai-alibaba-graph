@@ -9,7 +9,6 @@ import com.example.graph.node.ClassifierNode;
 import com.example.graph.node.NegativeBranchNode;
 import com.example.graph.node.PositiveBranchNode;
 import com.example.graph.action.CategoryDispatcher;
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,7 +26,7 @@ public class ConditionalGraphConfig {
 
     /** 定义带条件边的图：分类节点写 category，EdgeAction 根据 category 决定走正向或负向分支。 */
     @Bean
-    public StateGraph conditionalGraph(ChatClient.Builder chatClientBuilder) throws GraphStateException {
+    public StateGraph conditionalGraph() throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("input", new ReplaceStrategy());

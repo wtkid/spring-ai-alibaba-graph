@@ -79,7 +79,7 @@ public class RagGraphConfig {
     }
 
     @Bean
-    public StateGraph ragGraph(ChatClient.Builder chatClientBuilder, RetrievalAugmentationAdvisor retrievalAugmentationAdvisor) throws GraphStateException {
+    public StateGraph ragGraph(ChatClient chatClient, RetrievalAugmentationAdvisor retrievalAugmentationAdvisor) throws GraphStateException {
         OverAllStateFactory stateFactory = () -> {
             OverAllState state = new OverAllState();
             state.registerKeyAndStrategy("query", new ReplaceStrategy());
@@ -87,7 +87,7 @@ public class RagGraphConfig {
             return state;
         };
         return new StateGraph("RagGraph", stateFactory)
-                .addNode("rag", node_async(new RagNode(chatClientBuilder, retrievalAugmentationAdvisor)))
+                .addNode("rag", node_async(new RagNode(chatClient, retrievalAugmentationAdvisor)))
                 .addEdge(StateGraph.START, "rag")
                 .addEdge("rag", StateGraph.END);
     }

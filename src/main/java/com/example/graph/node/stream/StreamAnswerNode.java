@@ -17,8 +17,8 @@ public class StreamAnswerNode implements NodeAction {
 
     private final ChatClient chatClient;
 
-    public StreamAnswerNode(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public StreamAnswerNode(ChatClient chatClient) {
+        this.chatClient = chatClient;
     }
 
     @Override

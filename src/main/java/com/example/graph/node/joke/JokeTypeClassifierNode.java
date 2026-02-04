@@ -17,8 +17,8 @@ public class JokeTypeClassifierNode implements NodeAction {
 
     private final ChatClient chatClient;
 
-    public JokeTypeClassifierNode(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public JokeTypeClassifierNode(ChatClient chatClient) {
+        this.chatClient = chatClient;
     }
 
     @Override

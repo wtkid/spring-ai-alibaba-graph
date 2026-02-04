@@ -19,8 +19,8 @@ public class McpProductNode implements NodeAction {
     private final ChatClient chatClient;
     private final ToolCallbackProvider mcpTools;
 
-    public McpProductNode(ChatClient.Builder chatClientBuilder, ToolCallbackProvider mcpTools) {
-        this.chatClient = chatClientBuilder.build();
+    public McpProductNode(ChatClient chatClient, ToolCallbackProvider mcpTools) {
+        this.chatClient = chatClient;
         this.mcpTools = mcpTools;
     }
 

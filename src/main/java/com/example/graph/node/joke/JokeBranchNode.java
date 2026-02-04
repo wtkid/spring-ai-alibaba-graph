@@ -20,8 +20,8 @@ public class JokeBranchNode implements NodeAction {
 
     private final ChatClient chatClient;
 
-    public JokeBranchNode(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public JokeBranchNode(ChatClient chatClient) {
+        this.chatClient = chatClient;
     }
 
     @Override

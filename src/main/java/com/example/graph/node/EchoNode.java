@@ -17,8 +17,8 @@ public class EchoNode implements NodeAction {
 
     private final ChatClient chatClient;
 
-    public EchoNode(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public EchoNode(ChatClient chatClient) {
+        this.chatClient = chatClient;
     }
 
     @Override
