@@ -34,6 +34,8 @@ spring:
     # MCP 客户端：SSE 方式连接，地址请填写你的 MCP 服务 base URL
     mcp:
       client:
+        # tools异步调用，不占用当前线程，调用完自动回来继续执行
+        type: ASYNC
         sse:
           connections:
             product-server:
