@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 公共 ChatClient 配置：提供默认的 ChatClient Bean，供各图与节点直接注入使用。
- * 框架会自动对 {@link ChatClient.Builder} 应用 {@link ChatClientLoggingConfig} 等 Customizer。
  */
 @Configuration
 public class ChatClientConfig {
